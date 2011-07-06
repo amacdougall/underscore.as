@@ -13,7 +13,7 @@ import flash.events.TimerEvent;
 	
 	Default iterator format: function(value:*, index:*?, list:*? {}
 */
-public var _:* = (function() {
+public var _:* = (function():Function {
 	var breaker:Object = {};
 	
 	var _:* = function(obj:*):* {
@@ -33,7 +33,7 @@ public var _:* = (function() {
 		try each subsequent case when we get ArgumentErrors. Trying
 		one arg first means the fewest exceptions.
 	*/
-	var safeCall:Function = function(iterator, context, ...args):* {
+	var safeCall:Function = function(iterator:Function, context:Object, ...args):* {
 		
 		var answer:*;
 		var additionalArgs:Array = [];
@@ -450,7 +450,7 @@ public var _:* = (function() {
 	/** Zips multiple arrays together. Essentially rotates a nested array 90 degrees. */
 	_.zip = function(...args):Array {
 		var maxRowLength:int = _(args).chain().pluck("length").max().value();
-		var results = [];
+		var results:Array = [];
 		for (var rowIndex:int = 0; rowIndex < maxRowLength; rowIndex++) {
 			var column:Array = [];
 			for (var columnIndex:int = 0; columnIndex < args.length; columnIndex++) {
@@ -523,7 +523,7 @@ public var _:* = (function() {
 		var memo:Object = {}; // lookup table mapping input to output values
 		hasher = hasher || identity;
 		return function(...args):* {
-			var key = hasher.apply(this, args);
+			var key:String = hasher.apply(this, args);
 			return key in memo ? memo[key] : (memo[key] = f.apply(this, args));
 		};
 	};
@@ -652,7 +652,7 @@ public var _:* = (function() {
 	
 	/** Returns a list of the names of all functions in the collection. */
 	_.functions = _.methods = function(obj:*):Array {
-		return _.filter(_.keys(obj), function(key) {
+		return _.filter(_.keys(obj), function(key:String):Boolean {
 			return obj[key] is Function;
 		}).sort();
 	};
@@ -711,27 +711,27 @@ public var _:* = (function() {
 		}
 	};
 	
-	_.mixin = function(obj):void {
-		each(_.functions(obj), function(name) {
+	_.mixin = function(obj:*):void {
+		each(_.functions(obj), function(name:String):void {
 			// remember, the value of an assignment statement is the value that was assigned.
 			addToWrapper(name, _[name] = obj[name]);
 		});
 	};
 	
 	/** A default iterator used for functions which can optionally detect truthy values. */
-	var identity = function(value:*, index:* = null, list:* = null):* {
+	var identity:Function = function(value:*, index:* = null, list:* = null):* {
 		return value;
 	};
 	
 	/* OOP WRAPPER */
 	_.prototype = Wrapper.prototype;
 	
-	var result = function(obj:*, chain:Boolean):* {
+	var result:Function = function(obj:*, chain:Boolean):* {
 		// if chaining, continue the chaining wrapper; otherwise return naked object
 		return chain ? _(obj).chain() : obj;
 	}
 	
-	var addToWrapper = function(name, fn):void {
+	var addToWrapper:Function = function(name:String, fn:Function):void {
 		Wrapper.prototype[name] = function(...args):* {
 			return result(fn.apply(_, [this._wrapped].concat(args)), this._chain);
 		};
