@@ -1,1 +1,1 @@
-An Actionscript 3 port of [underscore.js](http://documentcloud.github.com/underscore/). A few implementation details are different, but the core functionality remains the same.
+An Actionscript 3 port of [underscore.js](http://documentcloud.github.com/underscore/). A few implementation details are different, but the core functionality remains the same. Just import com.alanmacdougall.underscore._ at the top of your script, then use just like you would use underscore.js. (A copy of underscore.js itself is included for comparison.)
