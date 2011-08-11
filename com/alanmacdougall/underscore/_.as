@@ -529,11 +529,15 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-		Executes the function after a delay. Although AS3 has setTimeout and
-		setInterval, the Adobe-approved timing method is Timer, so _.delay
-		returns a Timer which can be stopped to prevent the delayed function.
-		Optional args will be passed to the function at runtime.
+		Executes the function after a delay. Optional args will be passed to
+		the function at runtime.
+
+		@return A Timer which can be stopped to prevent the delayed execution.
 	*/
+	/* Although AS3 has setTimeout and setInterval, the Adobe-approved timing
+	 * method is Timer, so _.delay returns a Timer which can be stopped to
+	 * prevent the delayed function.
+	 */
 	_.delay = function(f:Function, wait:int, ...args):Timer {
 		var timer:Timer = new Timer(wait, 1);
 		timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(event:TimerEvent):void {
@@ -543,13 +547,26 @@ public var _:* = (function():Function {
 		return timer;
 	}
 	
-	// TO DO: defer? Find out if this even works or matters in AS3.
-	
 	/**
-		Internal function, but debounce and throttle can be considered convenience
-		methods for this.
+		Executes the function after the current call stack has completed. Good
+		for functions which should not block execution, or to call a single
+		event handler after many synchronous calls. Alternative strategy:
+		create an event handler using _.debounce(f, 0).
+
+		@return A Timer which can be stopped to prevent the deferred execution.
 	*/
-	var limit:Function = function(f:Function, wait:int, debounce:Boolean = false):Function {
+	_.defer = function(f:Function, ...args):Timer {
+		return _(f).delay(0);
+	}
+
+	/**
+		Internal function, but debounce, throttle, and choke can be considered
+		convenience methods for this.
+	*/
+	// choke implementation suggested by Nick Schaubeck
+	var limit:Function = function(f:Function, wait:int,
+		debounce:Boolean = false, choke:Boolean = false):Function {
+
 		var timer:Timer = new Timer(wait, 1);
 		
 		/*
@@ -561,13 +578,14 @@ public var _:* = (function():Function {
 		var args:Array;
 		var throttler:Function = function():void {
 			timer.stop();
-			f.apply(context, args);
+			choke || f.apply(context, args);
 		};
 		timer.addEventListener(TimerEvent.TIMER_COMPLETE, throttler);
 		
 		return function(...runtimeArgs):* {
 			args = runtimeArgs;
 			context = this;
+			choke && !timer.running && f.apply(context, args);
 			debounce && timer.stop();
 			(debounce || !timer.running) && timer.start();
 		};
@@ -582,12 +600,23 @@ public var _:* = (function():Function {
 		return limit(f, wait);
 	};
 	
-	// TO DO: add ._choke, which responds instantly but then locks out for a duration
+	/**
+		Returns a wrapped function which executes once, and then fails silently
+		for the given cooldown period.
+	*/
+	_.choke = function(f:Function, wait:int):Function {
+		return limit(f, wait, false, true);
+	}
 	
+	/**
+		Returns a wrapped function which only executes the most recent call, after
+		the given delay. Each call resets the delay. Good for performing an update
+		after a sequence of rapid inputs, such as typing or dragging.
+	*/
 	_.debounce = function(f:Function, wait:int):Function {
 		return limit(f, wait, true);
 	};
-	
+
 	/**
 		Returns a function which takes the initial function as an argument.
 		Useful for automatically transforming or interpreting the result of the

@@ -49,6 +49,8 @@ public class UnderscoreTestSuite extends TestSuite {
 		addTest(new FunctionsTestCase("testThrottle_Args"));
 		addTest(new FunctionsTestCase("testDebounce"));
 		addTest(new FunctionsTestCase("testDebounce_Args"));
+		addTest(new FunctionsTestCase("testChoke"));
+		addTest(new FunctionsTestCase("testChoke_Args"));
 		addTest(new FunctionsTestCase("testWrap"));
 		addTest(new FunctionsTestCase("testCompose"));
 		

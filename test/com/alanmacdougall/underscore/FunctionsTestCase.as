@@ -41,7 +41,7 @@ public class FunctionsTestCase extends TestCase {
 		};
 		
 		curried = _(getMeal).bind(hash, "lambda");
-	assertEquals("Failed to create partially applied function.",
+		assertEquals("Failed to create partially applied function.",
 			"curried lambda with rice", curried("rice"));
 	}
 	
@@ -148,7 +148,7 @@ public class FunctionsTestCase extends TestCase {
 		}), 500, 10);
 	}
 	
-	// TO DO: defer?
+	// defer uses delay, so shouldn't need its own test case
 	
 	public function testThrottle():void {
 		var invocationCount:int = 0;
@@ -184,9 +184,14 @@ public class FunctionsTestCase extends TestCase {
 			invocationCount += n;
 		};
 		var debounced:Function = _(inc).debounce(300);	// allow once per 300 ms
+
+		// call incrementor once at 0ms, once at 100ms, once at 200ms, and once at 300ms;
+		// that is, four times, once every 100ms
 		_(_.range(0, 300, 100)).each(function(n:int):void {
 			_.delay(debounced, n);
 		});
+
+		// after 900ms, verify that there was only one call
 		_.delay(addAsync(function():void {
 			assertEquals("Failed to debounce incrementor.", 1, invocationCount);
 		}), 900);
@@ -198,12 +203,52 @@ public class FunctionsTestCase extends TestCase {
 			invocationCount += n;
 		};
 		var debounced:Function = _(inc).debounce(300);	// allow once per 300 ms
+
+		// as above, but attempt to increment by 10 instead of the default 1
 		_(_.range(0, 300, 100)).each(function(n:int):void {
 			_.delay(debounced, n, 10);
 		});
+
 		_.delay(addAsync(function():void {
 			assertEquals("Failed to debounce incrementor.", 10, invocationCount);
 		}), 900);
+	}
+
+	// see testDebounce and testDebounce_Args comments for implementation details
+	public function testChoke():void {
+		var invocationCount:int = 0;
+		var inc:Function = function(n:int = 1):void {
+			invocationCount += n;
+		};
+		var choked:Function = _(inc).choke(300);	// allow once per 300 ms
+
+		choked(); // test initial call
+		assertEquals("Initial call to choked function had no effect.", 1, invocationCount);
+
+		_.delay(choked, 100);
+		_.delay(choked, 200);
+
+		_.delay(addAsync(function():void {
+			assertEquals("Failed to choke incrementor.", 1, invocationCount);
+		}), 500);
+	}
+	
+	public function testChoke_Args():void {
+		var invocationCount:int = 0;
+		var inc:Function = function(n:int = 1):void {
+			invocationCount += n;
+		};
+		var choked:Function = _(inc).choke(300);	// allow once per 300 ms
+
+		choked(10); // test initial call
+		assertEquals("Initial call to choked function had no effect.", 10, invocationCount);
+
+		_.delay(choked, 100, 10);
+		_.delay(choked, 200, 10);
+
+		_.delay(addAsync(function():void {
+			assertEquals("Failed to choke incrementor.", 10, invocationCount);
+		}), 500);
 	}
 	
 	public function testWrap():void {
