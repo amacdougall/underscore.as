@@ -66,6 +66,9 @@ public class UnderscoreTestSuite extends TestSuite {
 		
 		addTest(new ChainingTestCase("testWrapper"));
 		addTest(new ChainingTestCase("testWrapperChain"));
+
+		addTest(new MixinTestCase("testChokeDebounce"));
+		addTest(new MixinTestCase("testChokeDebounce_Args"));
 	}
 }
 }
