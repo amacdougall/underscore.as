@@ -560,12 +560,12 @@ public var _:* = (function():Function {
 	}
 
 	/**
-		Internal function, but debounce, throttle, and choke can be considered
-		convenience methods for this.
+        Internal function, but debounce and throttle can be considered
+        convenience methods for this.
 	*/
 	// choke implementation suggested by Nick Schaubeck
 	var limit:Function = function(f:Function, wait:int,
-		debounce:Boolean = false, choke:Boolean = false):Function {
+		debounce:Boolean = false, callThrottledImmediately:Boolean = false):Function {
 
 		var timer:Timer = new Timer(wait, 1);
 		
@@ -578,31 +578,34 @@ public var _:* = (function():Function {
 		var args:Array;
 		var throttler:Function = function():void {
 			timer.stop();
-			choke || f.apply(context, args);
+			callThrottledImmediately || f.apply(context, args);
 		};
 		timer.addEventListener(TimerEvent.TIMER_COMPLETE, throttler);
 		
 		return function(...runtimeArgs):* {
 			args = runtimeArgs;
 			context = this;
-			choke && !timer.running && f.apply(context, args);
+			callThrottledImmediately && !timer.running && f.apply(context, args);
 			debounce && timer.stop();
 			(debounce || !timer.running) && timer.start();
 		};
 	};
 	
 	/**
-		Returns a wrapped function which can only execute once every so many
-		milliseconds. As in underscore.js, even the first call is delayed by the
-		wait duration.
+        Returns a wrapped function which can only execute once every so many
+        milliseconds. As in underscore.js, even the first call is delayed by
+        the wait duration; but if the optional callImmediately argument is
+        true, the first call occurs immediately and subsequent calls are locked
+        out for the wait duration.
 	*/
-	_.throttle = function(f:Function, wait:int):Function {
-		return limit(f, wait);
+	_.throttle = function(f:Function, wait:int, callImmediately:Boolean = false):Function {
+		return limit(f, wait, false, callImmediately);
 	};
 	
 	/**
 		Returns a wrapped function which executes once, and then fails silently
-		for the given cooldown period.
+		for the given cooldown period. Equivalent to calling _.throttle with the
+        callImmediately argument = true.
 	*/
 	_.choke = function(f:Function, wait:int):Function {
 		return limit(f, wait, false, true);
