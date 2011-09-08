@@ -1,5 +1,6 @@
 package com.alanmacdougall.underscore {
 // imports
+import flash.utils.Dictionary;
 import flash.utils.Timer;
 import flash.events.TimerEvent;
 
@@ -511,16 +512,28 @@ public var _:* = (function():Function {
 	
 	/**
 		Memoizes a function by caching its results in a lookup table stored in
-		the closure.
+        the closure. For example, once f(x:int) is called as f(100), the result
+        is cached before it is returned, and future calls as f(100) will simply
+        return the cached result.
+        
+        Uses a Dictionary internally instead of an Object, meaning that
+        non-scalar arguments will be keyed by identity. If f(s:Sprite) is
+        called as f(foo), future calls as f(foo) will return the cached result;
+        but even if sprite "bar" is precisely identical to foo, f(bar) will
+        force a new function call and cache a new value.
 		
 		Optionally accepts a "hasher" function which produces a hash code for a
 		given input value. For instance, if all input values 0-10, 11-20, etc
 		are expected to produce the same output, hasher could be designed to
 		produce a single key for each level of input:
 		function(n:int):String {return (Math.floor(n / 10) * 10).toString();}.
+
+        Defining a custom hasher function is the only way to memoize a function
+        which takes more than one argument, or to memoize a function which
+        might return the same result for non-identical arguments.
 	*/
 	_.memoize = function(f:Function, hasher:Function = null):Function {
-		var memo:Object = {}; // lookup table mapping input to output values
+		var memo:Dictionary = new Dictionary(); // lookup table mapping input to output values
 		hasher = hasher || identity;
 		return function(...args):* {
 			var key:String = hasher.apply(this, args);
