@@ -66,10 +66,10 @@ public var _:* = (function():Function {
 	
 	/* COLLECTIONS */
 	/**
-     * Executes the iterator on each element of the input collection. Works on
-     * Array, Object, or XMLList collections.
+	 * Executes the iterator on each element of the input collection. Works on
+	 * Array, Object, or XMLList collections.
 	 * 
-     * @throws ArgumentError if obj is not a collection.
+	 * @throws ArgumentError if obj is not a collection.
 	 */
 	var each:Function = _.each = function(obj:*, iterator:Function, context:Object = null):* {
 		var i:int;
@@ -108,8 +108,8 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Returns the input items, filtered by the iterator, as an Array. Aliased
-     * as _.select.
+	 * Returns the input items, filtered by the iterator, as an Array. Aliased
+	 * as _.select.
 	 */
 	_.filter = _.select = function(obj:*, iterator:Function, context:Object = null):Array {
 		var results:Array = [];
@@ -121,7 +121,7 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Returns the input items, rejecting any which pass the truth test.
+	 * Returns the input items, rejecting any which pass the truth test.
 	 */
 	_.reject = function(obj:*, iterator:Function, context:Object = null):Array {
 		var results:Array = [];
@@ -133,17 +133,17 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Executes the iterator on each collection element. The iterator has
-     * access to a memo variable which can be modified by each iteration in
-     * turn, to build a string or sum a mathematical series (for example). At
-     * the end of the iteration, the memo is returned. If no memo is supplied,
-     * the first value in the list is used as the memo. As in the original
-     * underscore.js implementation, if no memo is supplied, the iterator is
-     * not run on the first value of the list.
+	 * Executes the iterator on each collection element. The iterator has
+	 * access to a memo variable which can be modified by each iteration in
+	 * turn, to build a string or sum a mathematical series (for example). At
+	 * the end of the iteration, the memo is returned. If no memo is supplied,
+	 * the first value in the list is used as the memo. As in the original
+	 * underscore.js implementation, if no memo is supplied, the iterator is
+	 * not run on the first value of the list.
 	 * 
-     * Simply returns the memo if run on an empty collection.
+	 * Simply returns the memo if run on an empty collection.
 	 * 
-     * Iterator format: function(memo:*, value:*, index:*?, list:*?):* {}
+	 * Iterator format: function(memo:*, value:*, index:*?, list:*?):* {}
 	 */
 	_.reduce = _.foldl = _.inject = function(obj:*, iterator:Function, memo:* = null, context:Object = null):* {
 		if (_.isEmpty(obj)) return memo;
@@ -163,10 +163,10 @@ public var _:* = (function():Function {
 	// TO DO: implement _.reduceRight
 	
 	/**
-     * Returns the first collection element for which the iterator returns
-     * true. If no element qualifies, returns null. Assigning null to a typed
-     * variable whose type is not nullable, such as an int, will coarse the
-     * value to 0 instead of null, so watch out.
+	 * Returns the first collection element for which the iterator returns
+	 * true. If no element qualifies, returns null. Assigning null to a typed
+	 * variable whose type is not nullable, such as an int, will coarse the
+	 * value to 0 instead of null, so watch out.
 	 */
 	_.detect = _.find = function(obj:*, iterator:*, context:Object = null):* {
 		var result:* = null;
@@ -181,8 +181,8 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * True if the iterator returns true for any collection element. If the
-     * iterator is omitted, tests the elements themselves for truthiness.
+	 * True if the iterator returns true for any collection element. If the
+	 * iterator is omitted, tests the elements themselves for truthiness.
 	 */
 	var any:Function = _.any = _.some = function(obj:*, iterator:Function = null, context:Object = null):Boolean {
 		if (obj == null || _(obj).isEmpty()) return false;
@@ -197,8 +197,8 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * True if the iterator returns true for all collection elements. If the
-     * iterator is omitted, tests the elements themselves for truthiness.
+	 * True if the iterator returns true for all collection elements. If the
+	 * iterator is omitted, tests the elements themselves for truthiness.
 	 */
 	_.all = function(obj:*, iterator:Function = null, context:Object = null):Boolean {
 		if (obj == null || _(obj).isEmpty()) return false;
@@ -213,9 +213,9 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * True if the target is present in the collection. Uses strict
-     * (threequals) equality. Named "include" in underscore.js, but since
-     * that's a special directive in AS3, it causes an error.
+	 * True if the target is present in the collection. Uses strict
+	 * (threequals) equality. Named "include" in underscore.js, but since
+	 * that's a special directive in AS3, it causes an error.
 	 */
 	_.includes = _.contains = function(obj:*, target:*):Boolean {
 		if (obj is XMLList) throw new ArgumentError("_.includes cannot operate on an XMLList.");
@@ -226,14 +226,14 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * Invoke the named method on each collection element. If the method name
-     * is omitted, and the element is a function, invokes the element. Any
-     * additional arguments will be passed as parameters to each function call.
-     * To call a list of functions with params, _.invoke(list, null, arg1,
-     * ...).
+	 * Invoke the named method on each collection element. If the method name
+	 * is omitted, and the element is a function, invokes the element. Any
+	 * additional arguments will be passed as parameters to each function call.
+	 * To call a list of functions with params, _.invoke(list, null, arg1,
+	 * ...).
 	 * 
-     * @return An Array of the results of each invocation, or null if all
-     * functions were void or returned null.
+	 * @return An Array of the results of each invocation, or null if all
+	 * functions were void or returned null.
 	 */
 	_.invoke = function(obj:*, functionName:String = null, ...args):Array {
 		// TO DO: compact the result
@@ -243,14 +243,14 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * Operates on a collection of Objects, returning an array of the values of
-     * the named property. Example:
+	 * Operates on a collection of Objects, returning an array of the values of
+	 * the named property. Example:
 	 * 
-     * var hashes:Array = [{name: "foo"}, {name: "bar"}];
-     * _(hashes).pluck("name"); // ["foo", "bar"]
+	 * var hashes:Array = [{name: "foo"}, {name: "bar"}];
+	 * _(hashes).pluck("name"); // ["foo", "bar"]
 	 * 
-     * @throws ArgumentError if called on an XMLList, since XML nodes have no
-     * single key. Could be @id, tag name, or who knows what. Use _.map!
+	 * @throws ArgumentError if called on an XMLList, since XML nodes have no
+	 * single key. Could be @id, tag name, or who knows what. Use _.map!
 	 */
 	_.pluck = function(obj:*, key:String):Array {
 		if (obj is XMLList) throw new ArgumentError("_.pluck cannot operate on an XMLList.");
@@ -261,10 +261,10 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * Returns the maximum value in the collection. If an iterator is passed,
-     * it must return a numeric value for each element. Otherwise the element
-     * itself will be compared using gt/lt operators, with undefined results if
-     * the values are non-numeric.
+	 * Returns the maximum value in the collection. If an iterator is passed,
+	 * it must return a numeric value for each element. Otherwise the element
+	 * itself will be compared using gt/lt operators, with undefined results if
+	 * the values are non-numeric.
 	 */
 	_.max = function(obj:*, iterator:Function = null, context:Object = null):* {
 		// unlike in underscore.js, "value" means numeric value, "element" is the real item
@@ -283,10 +283,10 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Returns the minimum value in the collection. If an iterator is passed,
-     * it must return a numeric value for each element. Otherwise the element
-     * itself will be compared using gt/lt operators, with undefined results if
-     * the values are non-numeric.
+	 * Returns the minimum value in the collection. If an iterator is passed,
+	 * it must return a numeric value for each element. Otherwise the element
+	 * itself will be compared using gt/lt operators, with undefined results if
+	 * the values are non-numeric.
 	 */
 	_.min = function(obj:*, iterator:Function = null, context:Object = null):* {
 		// unlike in underscore.js, "value" means numeric value, "element" is the real item
@@ -305,8 +305,8 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Sort the objects values by running the iterator on each one. Iterator
-     * must return a numeric value.
+	 * Sort the objects values by running the iterator on each one. Iterator
+	 * must return a numeric value.
 	 */
 	_.sortBy = function(obj:*, iterator:Function = null, context:Object = null):Array {
 		// unlike in underscore.js, "value" means numeric value, "element" is the real item
@@ -332,12 +332,12 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Operating on a sorted array, returns the index at which the supplied
-     * value should be inserted to main sort order. Optionally accepts an
-     * iterator which produces a numeric value for each element; otherwise,
-     * compares elements directly.
+	 * Operating on a sorted array, returns the index at which the supplied
+	 * value should be inserted to main sort order. Optionally accepts an
+	 * iterator which produces a numeric value for each element; otherwise,
+	 * compares elements directly.
 	 * 
-     * Iterator format: function(element:*):Number {}
+	 * Iterator format: function(element:*):Number {}
 	 */
 	_.sortedIndex = function(list:Array, element:*, iterator:Function = null):int {
 		iterator = iterator || identity;
@@ -351,9 +351,9 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Transforms the collection into an Array, discarding keys if it was an
-     * Object. If collection is already an Array, returns a shallow copy. If
-     * collection was an XMLList, returns an array of nodes.
+	 * Transforms the collection into an Array, discarding keys if it was an
+	 * Object. If collection is already an Array, returns a shallow copy. If
+	 * collection was an XMLList, returns an array of nodes.
 	 */
 	_.toArray = function(collection:*):Array {
 		if (collection == null) return [];
@@ -372,9 +372,9 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * True if the collection has no elements; false otherwise.
+	 * True if the collection has no elements; false otherwise.
 	 * 
-     * @throws ArgumentError if obj is not an Object or Array.
+	 * @throws ArgumentError if obj is not an Object or Array.
 	 */
 	_.isEmpty = function(obj:*):Boolean {
 		if (obj is Array) {
@@ -404,10 +404,10 @@ public var _:* = (function():Function {
 	_.last = function(list:Array, n:int):Object {
 		return list.slice(list.length - n, list.length);
 	};
-	
+
 	/**
-     * Returns an array with all false, null, undefined, NaN, or empty-string
-     * values removed.
+	 * Returns an array with all false, null, undefined, NaN, or empty-string
+	 * values removed.
 	 */
 	_.compact = function(list:Array):Array {
 		return _(list).select(function(element:*):Boolean {
@@ -492,12 +492,12 @@ public var _:* = (function():Function {
 	
 	/* FUNCTIONS */
 	/**
-     * Binds the function to the supplied object, returning a "bound" function
-     * whose "this" is the supplied object. Optionally curries the function
-     * with the supplied arguments. If these terms are unfamiliar, look up the
-     * fundamentals of scope, binding, and closures in AS3 (or Javascript,
-     * since they work almost identically and JS resources may be more common).
-     * And prepare to be enlightened.
+	 * Binds the function to the supplied object, returning a "bound" function
+	 * whose "this" is the supplied object. Optionally curries the function
+	 * with the supplied arguments. If these terms are unfamiliar, look up the
+	 * fundamentals of scope, binding, and closures in AS3 (or Javascript,
+	 * since they work almost identically and JS resources may be more common).
+	 * And prepare to be enlightened.
 	 */
 	_.bind = function(f:Function, obj:Object = null, ...curriedArgs):Function {
 		// The ...rest construct will yield an empty array if no extra args are passed.
@@ -507,10 +507,10 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Binds functions to the supplied object. If no function names are given,
-     * binds all functions found on the object. Useful when the functions will
-     * be called in a foreign context, such as an event listener. Use this to
-     * simulate method binding when constructing objects at runtime.
+	 * Binds functions to the supplied object. If no function names are given,
+	 * binds all functions found on the object. Useful when the functions will
+	 * be called in a foreign context, such as an event listener. Use this to
+	 * simulate method binding when constructing objects at runtime.
 	 */
 	_.bindAll = function(obj:Object, ...functionNames):Object {
 		_(functionNames).isEmpty() && (functionNames = _(obj).functions());
@@ -522,25 +522,25 @@ public var _:* = (function():Function {
 	
 	/**
 	 * Memoizes a function by caching its results in a lookup table stored in
-     * the closure. For example, once f(x:int) is called as f(100), the result
-     * is cached before it is returned, and future calls as f(100) will simply
-     * return the cached result.
-     * 
-     * Uses a Dictionary internally instead of an Object, meaning that
-     * non-scalar arguments will be keyed by identity. If f(s:Sprite) is
-     * called as f(foo), future calls as f(foo) will return the cached result;
-     * but even if sprite "bar" is precisely identical to foo, f(bar) will
-     * force a new function call and cache a new value.
+	 * the closure. For example, once f(x:int) is called as f(100), the result
+	 * is cached before it is returned, and future calls as f(100) will simply
+	 * return the cached result.
+	 * 
+	 * Uses a Dictionary internally instead of an Object, meaning that
+	 * non-scalar arguments will be keyed by identity. If f(s:Sprite) is
+	 * called as f(foo), future calls as f(foo) will return the cached result;
+	 * but even if sprite "bar" is precisely identical to foo, f(bar) will
+	 * force a new function call and cache a new value.
 	 * 
 	 * Optionally accepts a "hasher" function which produces a hash code for a
 	 * given input value. For instance, if all input values 0-10, 11-20, etc
 	 * are expected to produce the same output, hasher could be designed to
 	 * produce a single key for each level of input:
 	 * function(n:int):String {return (Math.floor(n / 10) * 10).toString();}.
-     *
-     * Defining a custom hasher function is the only way to memoize a function
-     * which takes more than one argument, or to memoize a function which
-     * might return the same result for non-identical arguments.
+	 *
+	 * Defining a custom hasher function is the only way to memoize a function
+	 * which takes more than one argument, or to memoize a function which
+	 * might return the same result for non-identical arguments.
 	 */
 	_.memoize = function(f:Function, hasher:Function = null):Function {
 		var memo:Dictionary = new Dictionary(); // lookup table mapping input to output values
@@ -552,10 +552,10 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Executes the function after a delay. Optional args will be passed to the
-     * function at runtime.
-     *
-     * @return A Timer which can be stopped to prevent the delayed execution.
+	 * Executes the function after a delay. Optional args will be passed to the
+	 * function at runtime.
+	 *
+	 * @return A Timer which can be stopped to prevent the delayed execution.
 	 */
 	/* Although AS3 has setTimeout and setInterval, the Adobe-approved timing
 	 * method is Timer, so _.delay returns a Timer which can be stopped to
@@ -571,20 +571,20 @@ public var _:* = (function():Function {
 	}
 	
 	/**
-     * Executes the function after the current call stack has completed. Good
-     * for functions which should not block execution, or to call a single
-     * event handler after many synchronous calls. Alternative strategy: create
-     * an event handler using _.debounce(f, 0).
-     * 
-     * @return A Timer which can be stopped to prevent the deferred execution.
+	 * Executes the function after the current call stack has completed. Good
+	 * for functions which should not block execution, or to call a single
+	 * event handler after many synchronous calls. Alternative strategy: create
+	 * an event handler using _.debounce(f, 0).
+	 * 
+	 * @return A Timer which can be stopped to prevent the deferred execution.
 	 */
 	_.defer = function(f:Function, ...args):Timer {
 		return _(f).delay(0);
 	}
 
 	/**
-     * Internal function, but debounce and throttle can be considered
-     * convenience methods for this.
+	 * Internal function, but debounce and throttle can be considered
+	 * convenience methods for this.
 	 */
 	// choke implementation suggested by Nick Schaubeck
 	var limit:Function = function(f:Function, wait:int,
@@ -615,11 +615,11 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Returns a wrapped function which can only execute once every so many
-     * milliseconds. As in underscore.js, even the first call is delayed by
-     * the wait duration; but if the optional callImmediately argument is
-     * true, the first call occurs immediately and subsequent calls are
-     * locked out for the wait duration.
+	 * Returns a wrapped function which can only execute once every so many
+	 * milliseconds. As in underscore.js, even the first call is delayed by
+	 * the wait duration; but if the optional callImmediately argument is
+	 * true, the first call occurs immediately and subsequent calls are
+	 * locked out for the wait duration.
 	 */
 	_.throttle = function(f:Function, wait:int, callImmediately:Boolean = false):Function {
 		return limit(f, wait, false, callImmediately);
@@ -628,27 +628,27 @@ public var _:* = (function():Function {
 	/**
 		Returns a wrapped function which executes once, and then fails silently
 		for the given cooldown period. Equivalent to calling _.throttle with the
-        callImmediately argument = true.
+		callImmediately argument = true.
 	*/
 	_.choke = function(f:Function, wait:int):Function {
 		return limit(f, wait, false, true);
 	}
 	
 	/**
-     * Returns a wrapped function which only executes the most recent call,
-     * after the given delay. Each call resets the delay. Good for performing
-     * an update after a sequence of rapid inputs, such as typing or dragging.
+	 * Returns a wrapped function which only executes the most recent call,
+	 * after the given delay. Each call resets the delay. Good for performing
+	 * an update after a sequence of rapid inputs, such as typing or dragging.
 	 */
 	_.debounce = function(f:Function, wait:int):Function {
 		return limit(f, wait, true);
 	};
 
 	/**
-     * Returns a function which takes the initial function as an argument.
-     * Useful for automatically transforming or interpreting the result of the
-     * intial function, or logging when it is called, or something. Wrapper is
-     * welcome to pass its arguments along to the original function, or take
-     * completely different ones.
+	 * Returns a function which takes the initial function as an argument.
+	 * Useful for automatically transforming or interpreting the result of the
+	 * intial function, or logging when it is called, or something. Wrapper is
+	 * welcome to pass its arguments along to the original function, or take
+	 * completely different ones.
 	 */
 	_.wrap = function(f:Function, wrapper:Function):Function {
 		return function(...args):* {
@@ -658,21 +658,21 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Creates a function whose return value is the result of passing the
-     * output of each function as the sole argument of the next. The classic
-     * example is h(x) = g(f(x)) -- the input to g() is the output of f(x).
-     * More practically, createRedSprite = _.compose(buildSprite,
-     * turnSpriteRed);
+	 * Creates a function whose return value is the result of passing the
+	 * output of each function as the sole argument of the next. The classic
+	 * example is h(x) = g(f(x)) -- the input to g() is the output of f(x).
+	 * More practically, createRedSprite = _.compose(buildSprite,
+	 * turnSpriteRed);
 	 * 
-     * While underscore.js passed values from right to left, I'm passing them
-     * left to right. It seems more natural to me. If this is actually a
-     * violation of some functional programming convention, let me know and
-     * I'll change it!
+	 * While underscore.js passed values from right to left, I'm passing them
+	 * left to right. It seems more natural to me. If this is actually a
+	 * violation of some functional programming convention, let me know and
+	 * I'll change it!
 	 * 
-     * Also, in underscore.js, the first function to be called could have more
-     * than one argument, while the others could not. This seems inconsistent
-     * both internally and with the concept of function composition. I've made
-     * it so each function takes exactly one input value.
+	 * Also, in underscore.js, the first function to be called could have more
+	 * than one argument, while the others could not. This seems inconsistent
+	 * both internally and with the concept of function composition. I've made
+	 * it so each function takes exactly one input value.
 	 */
 	_.compose = function(f:Function, ...functions):Function {
 		functions.unshift(f);
@@ -687,7 +687,7 @@ public var _:* = (function():Function {
 	
 	/* OBJECTS */
 	/**
-     * Returns a list of the collection's keys. Returns ints if given an array.
+	 * Returns a list of the collection's keys. Returns ints if given an array.
 	 */
 	_.keys = function(obj:*):Array {
 		var keys:Array = [];
@@ -714,14 +714,14 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Extends the object with all the properties in the supplied object(s).
-     * Alters and returns the original object, NOT a copy. To extend a copy,
-     * var copy:Object = _(obj).chain().clone().extend(otherObj).value().
+	 * Extends the object with all the properties in the supplied object(s).
+	 * Alters and returns the original object, NOT a copy. To extend a copy,
+	 * var copy:Object = _(obj).chain().clone().extend(otherObj).value().
 	 * 
-     * An object can be extended with arrays, though this would not be a
-     * terribly sensible thing to do. The opposite doesn't work at all. Fails
-     * on XMLLists without even throwing ArgumentError, because why would you
-     * even try to do that, seriously?
+	 * An object can be extended with arrays, though this would not be a
+	 * terribly sensible thing to do. The opposite doesn't work at all. Fails
+	 * on XMLLists without even throwing ArgumentError, because why would you
+	 * even try to do that, seriously?
 	 */
 	_.extend = function(obj:Object, ...args):Object {
 		each(args, function(source:Object):void {
@@ -733,9 +733,9 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Creates a shallow copy of an Array or Object.
+	 * Creates a shallow copy of an Array or Object.
 	 * 
-     * @throws ArgumentError if supplied an XMLList.
+	 * @throws ArgumentError if supplied an XMLList.
 	 */
 	_.clone = function(obj:*):* {
 		if (obj is XMLList) throw new ArgumentError("_.clone cannot operate on an XMLList.");
@@ -743,8 +743,8 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-     * Insert this in a method chain to invoke the interceptor on the object
-     * being chained at that point.
+	 * Insert this in a method chain to invoke the interceptor on the object
+	 * being chained at that point.
 	 */
 	_.tap = function(obj:*, interceptor:Function):* {
 		interceptor(obj);
@@ -752,14 +752,14 @@ public var _:* = (function():Function {
 	};
 	
 	/*
-     * All the _.isFoo functions from underscore.js are omitted, since AS3's
-     * equality and "is" operators do a good enough job.
+	 * All the _.isFoo functions from underscore.js are omitted, since AS3's
+	 * equality and "is" operators do a good enough job.
 	 */
 	
 	/* UTILITY */
 	/**
-     * Run a function n times. Optional third context argument. The function
-     * itself may accept the loop counter as its argument.
+	 * Run a function n times. Optional third context argument. The function
+	 * itself may accept the loop counter as its argument.
 	 */
 	_.times = function(n:int, f:Function, context:Object = null):void {
 		for (var i:int = 0; i < n; i++) {
