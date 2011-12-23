@@ -400,8 +400,9 @@ public var _:* = (function():Function {
 		return list.slice(n);
 	};
 	
-	_.last = function(list:Array):Object {
-		return list[list.length - 1];
+	/** Returns the last n elements of the list. */
+	_.last = function(list:Array, n:int):Object {
+		return list.slice(list.length - n, list.length);
 	};
 	
 	/**
