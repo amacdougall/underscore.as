@@ -390,9 +390,8 @@ public var _:* = (function():Function {
 	};
 	
 	/* ARRAYS */
-	_.first = _.head = function(list:Array, n:int = -1):Object {
-		// TO DO: figure out the purpose of the guard variable in underscore.js
-		// _(list).map(_.first) seems to work fine for me
+	/** Returns the first n elements of the list. Default 1. */
+	_.first = _.head = function(list:Array, n:int = 1):Object {
 		return n <= 1 ? list[0] : list.slice(0, n);
 	};
 	
@@ -400,9 +399,9 @@ public var _:* = (function():Function {
 		return list.slice(n);
 	};
 	
-	/** Returns the last n elements of the list. */
-	_.last = function(list:Array, n:int):Object {
-		return list.slice(list.length - n, list.length);
+	/** Returns the last n elements of the list. Default 1. */
+	_.last = function(list:Array, n:int = 1):Object {
+		return list.slice(-n);
 	};
 
 	/**
@@ -626,9 +625,9 @@ public var _:* = (function():Function {
 	};
 	
 	/**
-		Returns a wrapped function which executes once, and then fails silently
-		for the given cooldown period. Equivalent to calling _.throttle with the
-		callImmediately argument = true.
+	 * Returns a wrapped function which executes once, and then fails silently
+	 * for the given cooldown period. Equivalent to calling _.throttle with the
+	 * callImmediately argument = true.
 	*/
 	_.choke = function(f:Function, wait:int):Function {
 		return limit(f, wait, false, true);
