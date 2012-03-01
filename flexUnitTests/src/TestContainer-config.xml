@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<flex-config>
+	<benchmark>false</benchmark>
+	<default-background-color>#FFFFFF</default-background-color>
+
+	<static-link-runtime-shared-libraries>true</static-link-runtime-shared-libraries>
+
+	<compiler>
+        <headless-server>true</headless-server>
+		<incremental>true</incremental>
+		<optimize>true</optimize>
+		<keep-generated-actionscript>false</keep-generated-actionscript>
+		<show-actionscript-warnings>true</show-actionscript-warnings>
+		<show-binding-warnings>true</show-binding-warnings>
+		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>
+		<debug>true</debug>
+		
+		<library-path append="true">
+			<path-element></path-element>
+		</library-path>
+
+		<source-path append="true">
+            <path-element>../../src/</path-element>
+		</source-path>
+  </compiler>
+
+  <metadata>
+    <title>TextPosition Tests</title>
+    <description>Test suite for text-formatting class.</description>
+    <publisher>Written with Vim and the open source Flex SDK</publisher>
+    <creator>Alan MacDougall</creator>
+    <language>EN</language>
+  </metadata>
+
+  <raw-metadata/>
+</flex-config>

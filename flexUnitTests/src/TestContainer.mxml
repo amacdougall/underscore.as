@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test:TestContainerBase
+	xmlns:test="*"
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flexUnitUIRunner="http://www.adobe.com/2009/flexUnitUIRunner" 
+	width="100%" height="100%"
+	styleName="flexUnitApplication"
+	creationComplete="init()">
+	
+	<mx:Style>
+		.flexUnitApplication {
+		   backgroundColor: #3872b2;
+		   backgroundGradientColors: #3872b2, #0c1a3d;
+		   backgroundGradientAlphas: 1, 1;
+		   themeColor: #ffffff;
+		   color: #444444;
+		   fontFamily: "Myriad Pro Semibold";
+		   fontSize: 12;
+		}
+	</mx:Style>
+
+	<flexUnitUIRunner:TestRunnerBase id="uiListener" 
+		width="100%" height="100%" />	
+</test:TestContainerBase>
