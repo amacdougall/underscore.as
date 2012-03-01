@@ -390,18 +390,28 @@ public var _:* = (function():Function {
 	};
 	
 	/* ARRAYS */
-	/** Returns the first n elements of the list. Default 1. */
-	_.first = _.head = function(list:Array, n:int = 1):Object {
-		return n <= 1 ? list[0] : list.slice(0, n);
+	/**
+	 * Returns the first element of the list; or if the optional n argument
+	 * is supplied, returns the first n elements of the list an an Array.
+	 */
+	_.first = _.head = function(list:Array, n:int = -1):Object {
+		return n == -1 ? list[0] : list.slice(0, n);
 	};
 	
 	_.rest = _.tail = function(list:Array, n:int = 1):* {
 		return list.slice(n);
 	};
 	
-	/** Returns the last n elements of the list. Default 1. */
-	_.last = function(list:Array, n:int = 1):Object {
-		return list.slice(-n);
+	/**
+	 * Returns the last element of the array. If the optional n argument
+	 * is supplied, returns an array of the last n elements of the array.
+	 */
+	_.last = function(list:Array, n:int = -1):Object {
+		if (n == -1) {
+		  return list[list.length - 1];
+		} else {
+		  return list.slice(-n);
+		}
 	};
 
 	/**
