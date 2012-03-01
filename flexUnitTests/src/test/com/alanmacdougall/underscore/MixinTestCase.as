@@ -9,7 +9,9 @@ import org.hamcrest.collection.hasItems;
 import org.hamcrest.number.greaterThan;
 
 import flash.events.TimerEvent;
+import flash.utils.Dictionary;
 import flash.utils.Timer;
+import flash.utils.getQualifiedClassName;
 
 
 /**
@@ -39,6 +41,59 @@ public class MixinTestCase {
 						debounced.apply(this, runtimeArgs);
 					}
 				};
+			}
+		});
+	}
+
+	/** Creates _.equals if not present. */
+	private function mixinEquals():void {
+		_.isEqual || _.mixin({
+			/**
+			 * Compares objects and arrays, recursively, on a value-for-value
+			 * basis; or performs a straight-up threequals on scalars.
+			 * Primitive compared to _.isEqual from underscore.js 1.3.1! Should
+			 * be reliable in comparing simple data structures, though, such as
+			 * you would find in a JSON file.
+			 */
+			equals: function(a:*, b:*):Boolean {
+				if (getQualifiedClassName(a) != getQualifiedClassName(b)) {
+					return false; // not the same type of object in the first place
+				}
+
+				// given preceding test, a and b are the same type
+				if (getQualifiedClassName(a) == "Object") {
+					var key:String;
+					var keysObserved:Object = {};
+					for (key in a) {
+						if (!b.hasOwnProperty(key) || !_(a[key]).equals(b[key])) {
+							return false;
+						}
+						keysObserved[key] = true;
+					}
+
+					for (key in b) {
+						if (!keysObserved[key]) {
+							return false; // key exists in b that is not in a
+						}
+					}
+
+					return true;
+				} else if (a is Array) {
+					if (a.length != b.length) {
+						return false;
+					} else {
+						for (var i:int = 0; i < a.length; i++) {
+							if (!_(a[i]).equals(b[i])) {
+								return false;
+							}
+						}
+					}
+
+					return true;
+				} else {
+					// if not an object or array, test using strict equality
+					return a === b;
+				}
 			}
 		});
 	}
@@ -89,6 +144,71 @@ public class MixinTestCase {
 			Assert.assertEquals("Failed to debounce incrementor or did not pass arguments.",
 				20, invocationCount);
 		});
+	}
+
+	[Test]
+	public function testEquals():void {
+		mixinEquals();
+		var a:*, b:*;
+
+		a = [1, 2, 3];
+		b = [1, 2, 3];
+		Assert.assertTrue("Failed to detect equal arrays.", _(a).equals(b));
+
+		a = [1, 2, 3];
+		b = [1, 2, 4];
+		Assert.assertFalse("Failed to detect unequal arrays.", _(a).equals(b));
+
+		a = {a: 1, b: 2, c: 3};
+		b = {a: 1, b: 2, c: 3};
+		Assert.assertTrue("Failed to detect equal objects.", _(a).equals(b));
+
+		a = {a: 1, b: 2, c: 3};
+		b = {a: 0, b: 2, c: 3};
+		Assert.assertFalse("Failed to detect unequal objects.", _(a).equals(b));
+
+		a = 1;
+		b = 1;
+		Assert.assertTrue("Failed to detect equal numbers.", _(a).equals(b));
+
+		a = 1;
+		b = 2;
+		Assert.assertFalse("Failed to detect unequal numbers.", _(a).equals(b));
+
+		a = "Hello";
+		b = "Hello";
+		Assert.assertTrue("Failed to detect equal strings.", _(a).equals(b));
+
+		a = "Hello";
+		b = "Goodbye";
+		Assert.assertFalse("Failed to detect unequal strings.", _(a).equals(b));
+
+		a = {a: 1};
+		b = new Dictionary();
+		b["a"] = 1;
+		Assert.assertFalse("Failed to detect different types.", _(a).equals(b));
+	}
+
+	[Test]
+	public function testNestedEquals():void {
+		mixinEquals();
+		var a:*, b:*;
+
+		a = [[1, 2], [3, 4]];
+		b = [[1, 2], [3, 4]];
+		Assert.assertTrue("Failed to detect equal nested arrays.", _(a).equals(b));
+
+		a = [[1, 2], [3, 4]];
+		b = [[1, 2], [6, 4]];
+		Assert.assertFalse("Failed to detect unequal nested arrays.", _(a).equals(b));
+
+		a = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		b = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		Assert.assertTrue("Failed to detect equal nested objects.", _(a).equals(b));
+
+		a = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		b = {meta: {a: 1, b: 3}, hyper: {a: 3, b: 4}};
+		Assert.assertFalse("Failed to detect unequal nested objects.", _(a).equals(b));
 	}
 }
 }
