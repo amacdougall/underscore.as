@@ -7,6 +7,8 @@ import org.flexunit.assertThat;
 import org.hamcrest.collection.hasItems;
 import org.hamcrest.number.greaterThan;
 
+import flash.utils.Dictionary;
+
 
 /**
  * Test underscore.as general collection methods.
@@ -319,6 +321,69 @@ public class CollectionsTestCase {
 		Assert.assertFalse("_.isEmpty failed on non-empty hash.", _(hash).isEmpty());
 		Assert.assertTrue("_.isEmpty failed on empty hash.", _(emptyHash).isEmpty());
 		// TO DO: test error case
+	}
+
+	[Test]
+	public function testEquals():void {
+		var a:*, b:*;
+
+		a = [1, 2, 3];
+		b = [1, 2, 3];
+		Assert.assertTrue("Failed to detect equal arrays.", _(a).isEqual(b));
+
+		a = [1, 2, 3];
+		b = [1, 2, 4];
+		Assert.assertFalse("Failed to detect unequal arrays.", _(a).isEqual(b));
+
+		a = {a: 1, b: 2, c: 3};
+		b = {a: 1, b: 2, c: 3};
+		Assert.assertTrue("Failed to detect equal objects.", _(a).isEqual(b));
+
+		a = {a: 1, b: 2, c: 3};
+		b = {a: 0, b: 2, c: 3};
+		Assert.assertFalse("Failed to detect unequal objects.", _(a).isEqual(b));
+
+		a = 1;
+		b = 1;
+		Assert.assertTrue("Failed to detect equal numbers.", _(a).isEqual(b));
+
+		a = 1;
+		b = 2;
+		Assert.assertFalse("Failed to detect unequal numbers.", _(a).isEqual(b));
+
+		a = "Hello";
+		b = "Hello";
+		Assert.assertTrue("Failed to detect equal strings.", _(a).isEqual(b));
+
+		a = "Hello";
+		b = "Goodbye";
+		Assert.assertFalse("Failed to detect unequal strings.", _(a).isEqual(b));
+
+		a = {a: 1};
+		b = new Dictionary();
+		b["a"] = 1;
+		Assert.assertFalse("Failed to detect different types.", _(a).isEqual(b));
+	}
+
+	[Test]
+	public function testNestedEquals():void {
+		var a:*, b:*;
+
+		a = [[1, 2], [3, 4]];
+		b = [[1, 2], [3, 4]];
+		Assert.assertTrue("Failed to detect equal nested arrays.", _(a).isEqual(b));
+
+		a = [[1, 2], [3, 4]];
+		b = [[1, 2], [6, 4]];
+		Assert.assertFalse("Failed to detect unequal nested arrays.", _(a).isEqual(b));
+
+		a = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		b = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		Assert.assertTrue("Failed to detect equal nested objects.", _(a).isEqual(b));
+
+		a = {meta: {a: 1, b: 2}, hyper: {a: 3, b: 4}};
+		b = {meta: {a: 1, b: 3}, hyper: {a: 3, b: 4}};
+		Assert.assertFalse("Failed to detect unequal nested objects.", _(a).isEqual(b));
 	}
 }
 }
