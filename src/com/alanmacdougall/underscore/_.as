@@ -466,6 +466,15 @@ public var _:* = (function():Function {
 			});
 		});
 	};
+
+    /** Take the difference between one array and a number of other arrays. Only the elements present in just the first array will remain. */
+    _.difference = function(list:Array, ...others):Array {
+        return _(list).select(function(element:*):Boolean {
+            return _(others).all(function(other:Array):Boolean {
+                return !_(other).includes(element);
+            });
+        });
+    };
 	
 	/** Zips multiple arrays together. Essentially rotates a nested array 90 degrees. */
 	_.zip = function(...args):Array {
@@ -790,11 +799,13 @@ public var _:* = (function():Function {
         // A strict comparison is necessary because `null == undefined`.
         if (a == null || b == null) return a === b;
         // Unwrap any wrapped objects.
-        if (a._chain) a = a._wrapped;
-        if (b._chain) b = b._wrapped;
+        if (a is Wrapper) a = (a as Wrapper)._wrapped;
+        if (b is Wrapper) b = (b as Wrapper)._wrapped;
         // Invoke a custom `isEqual` method if one is provided.
-        if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
-        if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+        try {
+            if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
+            if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+        } catch (e:Error) {}
         // Compare `[[Class]]` names.
         var className:String = a.toString();
         if (className != b.toString()) return false;
@@ -874,6 +885,10 @@ public var _:* = (function():Function {
     // Perform a deep comparison to check if two objects are equal.
     _.isEqual = function(a:*, b:*):Boolean {
         return eq(a, b, []);
+    };
+
+    _.isFunction = function(a:*):Boolean {
+        return (a is Function);
     };
 
     // Has own property?
