@@ -8,6 +8,7 @@
  */
 package com.alanmacdougall.underscore {
 // imports
+import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.utils.Timer;
 import flash.events.TimerEvent;
@@ -857,25 +858,12 @@ public var _:* = (function():Function {
                 }
             }
         } else {
-            // Objects with different constructors are not equivalent.
-            if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) return false;
-            // Deep compare objects.
-            for (var key:* in a) {
-                true;
-                if (_.has(a, key)) {
-                    // Count the expected number of properties.
-                    size++;
-                    // Deep compare each member.
-                    if (!(result = _.has(b, key) && eq(a[key], b[key], stack))) break;
-                }
-            }
-            // Ensure that both objects contain the same number of properties.
-            if (result) {
-                for (key in b) {
-                    if (_.has(b, key) && !(size--)) break;
-                }
-                result = !size;
-            }
+            // Objects are compared via their serialized state.
+            var serializedA:ByteArray = new ByteArray();
+            serializedA.writeObject(a);
+            var serializedB:ByteArray = new ByteArray();
+            serializedB.writeObject(b);
+            return serializedA.toString() === serializedB.toString();
         }
         // Remove the first object from the stack of traversed objects.
         stack.pop();
