@@ -8,6 +8,7 @@
  */
 package com.alanmacdougall.underscore {
 // imports
+import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.utils.Timer;
 import flash.events.TimerEvent;
@@ -466,6 +467,15 @@ public var _:* = (function():Function {
 			});
 		});
 	};
+
+    /** Take the difference between one array and a number of other arrays. Only the elements present in just the first array will remain. */
+    _.difference = function(list:Array, ...others):Array {
+        return _(list).select(function(element:*):Boolean {
+            return _(others).all(function(other:Array):Boolean {
+                return !_(other).includes(element);
+            });
+        });
+    };
 	
 	/** Zips multiple arrays together. Essentially rotates a nested array 90 degrees. */
 	_.zip = function(...args):Array {
@@ -790,11 +800,13 @@ public var _:* = (function():Function {
         // A strict comparison is necessary because `null == undefined`.
         if (a == null || b == null) return a === b;
         // Unwrap any wrapped objects.
-        if (a._chain) a = a._wrapped;
-        if (b._chain) b = b._wrapped;
+        if (a is Wrapper) a = (a as Wrapper)._wrapped;
+        if (b is Wrapper) b = (b as Wrapper)._wrapped;
         // Invoke a custom `isEqual` method if one is provided.
-        if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
-        if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+        try {
+            if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
+            if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+        } catch (e:Error) {}
         // Compare `[[Class]]` names.
         var className:String = a.toString();
         if (className != b.toString()) return false;
@@ -846,25 +858,12 @@ public var _:* = (function():Function {
                 }
             }
         } else {
-            // Objects with different constructors are not equivalent.
-            if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) return false;
-            // Deep compare objects.
-            for (var key:* in a) {
-                true;
-                if (_.has(a, key)) {
-                    // Count the expected number of properties.
-                    size++;
-                    // Deep compare each member.
-                    if (!(result = _.has(b, key) && eq(a[key], b[key], stack))) break;
-                }
-            }
-            // Ensure that both objects contain the same number of properties.
-            if (result) {
-                for (key in b) {
-                    if (_.has(b, key) && !(size--)) break;
-                }
-                result = !size;
-            }
+            // Objects are compared via their serialized state.
+            var serializedA:ByteArray = new ByteArray();
+            serializedA.writeObject(a);
+            var serializedB:ByteArray = new ByteArray();
+            serializedB.writeObject(b);
+            return serializedA.toString() === serializedB.toString();
         }
         // Remove the first object from the stack of traversed objects.
         stack.pop();
@@ -874,6 +873,10 @@ public var _:* = (function():Function {
     // Perform a deep comparison to check if two objects are equal.
     _.isEqual = function(a:*, b:*):Boolean {
         return eq(a, b, []);
+    };
+
+    _.isFunction = function(a:*):Boolean {
+        return (a is Function);
     };
 
     // Has own property?
