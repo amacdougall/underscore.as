@@ -113,6 +113,20 @@ public class ArraysTestCase {
 	}
 
 	[Test]
+	public function testDifference():void {
+		var list:Array = [1, 2, 3, 4, 5];
+		var foo:Array = [3, 4];
+		var bar:Array = [5, 6];
+		
+		var difference:Array = _(list).difference(foo, bar);
+		Assert.assertEquals("Failed to remove correct elements while producing difference.",
+			2, difference.length);
+		Assert.assertTrue("Failed to get correct unique elements while producting difference.",
+			_(difference).includes(1) &&
+			_(difference).includes(2));
+	}
+
+	[Test]
 	public function testZip():void {
 		var foo:Array = [1, 2, 3, 4];
 		var bar:Array = ["one", "two", "three", "four"];
