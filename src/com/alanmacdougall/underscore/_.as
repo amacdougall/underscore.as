@@ -458,9 +458,11 @@ public var _:* = (function():Function {
 			});
 		})(list);
 	};
-	
-	/** Returns an array of all values which are present in all supplied arrays. */
-	_.intersect = function(list:Array, ...targets):Array {
+
+	/**
+	 * Returns an array of all values which are present in all supplied arrays.
+	 */
+	_.intersection = function(list:Array, ...targets):Array {
 		return _(list).select(function(element:*):Boolean {
 			return _(targets).all(function(target:Array):Boolean {
 				return _(target).includes(element);
@@ -468,14 +470,21 @@ public var _:* = (function():Function {
 		});
 	};
 
-    /** Take the difference between one array and a number of other arrays. Only the elements present in just the first array will remain. */
-    _.difference = function(list:Array, ...others):Array {
-        return _(list).select(function(element:*):Boolean {
-            return _(others).all(function(other:Array):Boolean {
-                return !_(other).includes(element);
-            });
-        });
-    };
+	/**
+	 * Returns an array of all values which are present in all supplied arrays.
+	 * An alias for _.intersection.
+	 */
+	_.intersect = _.intersection;
+
+
+	/** Take the difference between one array and a number of other arrays. Only the elements present in just the first array will remain. */
+	_.difference = function(list:Array, ...others):Array {
+		return _(list).select(function(element:*):Boolean {
+			return _(others).all(function(other:Array):Boolean {
+				return !_(other).includes(element);
+			});
+		});
+	};
 	
 	/** Zips multiple arrays together. Essentially rotates a nested array 90 degrees. */
 	_.zip = function(...args):Array {
@@ -793,96 +802,96 @@ public var _:* = (function():Function {
 		});
 	};
 
-    var eq:Function = function(a:*, b:*, stack:*):Boolean {
-        // Identical objects are equal. `0 === -0`, but they aren't identical.
-        // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
-        if (a === b) return a !== 0 || 1 / a == 1 / b;
-        // A strict comparison is necessary because `null == undefined`.
-        if (a == null || b == null) return a === b;
-        // Unwrap any wrapped objects.
-        if (a is Wrapper) a = (a as Wrapper)._wrapped;
-        if (b is Wrapper) b = (b as Wrapper)._wrapped;
-        // Invoke a custom `isEqual` method if one is provided.
-        try {
-            if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
-            if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
-        } catch (e:Error) {}
-        // Compare `[[Class]]` names.
-        var className:String = a.toString();
-        if (className != b.toString()) return false;
-        switch (className) {
-            // Strings, numbers, dates, and booleans are compared by value.
-            case '[object String]':
-                // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-                // equivalent to `new String("5")`.
-                return a == String(b);
-            case '[object Number]':
-                // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
-                // other numeric values.
-                return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
-            case '[object Date]':
-            case '[object Boolean]':
-                // Coerce dates and booleans to numeric primitive values. Dates are compared by their
-                // millisecond representations. Note that invalid dates with millisecond representations
-                // of `NaN` are not equivalent.
-                return +a == +b;
-            // RegExps are compared by their source patterns and flags.
-            case '[object RegExp]':
-                return a.source == b.source &&
-                        a.global == b.global &&
-                        a.multiline == b.multiline &&
-                        a.ignoreCase == b.ignoreCase;
-        }
-        if (typeof a != 'object' || typeof b != 'object') return false;
-        // Assume equality for cyclic structures. The algorithm for detecting cyclic
-        // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-        var length:uint = stack.length;
-        while (length--) {
-            // Linear search. Performance is inversely proportional to the number of
-            // unique nested structures.
-            if (stack[length] == a) return true;
-        }
-        // Add the first object to the stack of traversed objects.
-        stack.push(a);
-        var size:uint = 0, result:Boolean = true;
-        // Recursively compare objects and arrays.
-        if (className == '[object Array]') {
-            // Compare array lengths to determine if a deep comparison is necessary.
-            size = a.length;
-            result = size == b.length;
-            if (result) {
-                // Deep compare the contents, ignoring non-numeric properties.
-                while (size--) {
-                    // Ensure commutative equality for sparse arrays.
-                    if (!(result = size in a == size in b && eq(a[size], b[size], stack))) break;
-                }
-            }
-        } else {
-            // Objects are compared via their serialized state.
-            var serializedA:ByteArray = new ByteArray();
-            serializedA.writeObject(a);
-            var serializedB:ByteArray = new ByteArray();
-            serializedB.writeObject(b);
-            return serializedA.toString() === serializedB.toString();
-        }
-        // Remove the first object from the stack of traversed objects.
-        stack.pop();
-        return result;
-    };
+	var eq:Function = function(a:*, b:*, stack:*):Boolean {
+		// Identical objects are equal. `0 === -0`, but they aren't identical.
+		// See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
+		if (a === b) return a !== 0 || 1 / a == 1 / b;
+		// A strict comparison is necessary because `null == undefined`.
+		if (a == null || b == null) return a === b;
+		// Unwrap any wrapped objects.
+		if (a is Wrapper) a = (a as Wrapper)._wrapped;
+		if (b is Wrapper) b = (b as Wrapper)._wrapped;
+		// Invoke a custom `isEqual` method if one is provided.
+		try {
+			if (a.isEqual && _.isFunction(a.isEqual)) return a.isEqual(b);
+			if (b.isEqual && _.isFunction(b.isEqual)) return b.isEqual(a);
+		} catch (e:Error) {}
+		// Compare `[[Class]]` names.
+		var className:String = a.toString();
+		if (className != b.toString()) return false;
+		switch (className) {
+			// Strings, numbers, dates, and booleans are compared by value.
+			case '[object String]':
+				// Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+				// equivalent to `new String("5")`.
+				return a == String(b);
+			case '[object Number]':
+				// `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
+				// other numeric values.
+				return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+			case '[object Date]':
+			case '[object Boolean]':
+				// Coerce dates and booleans to numeric primitive values. Dates are compared by their
+				// millisecond representations. Note that invalid dates with millisecond representations
+				// of `NaN` are not equivalent.
+				return +a == +b;
+			// RegExps are compared by their source patterns and flags.
+			case '[object RegExp]':
+				return a.source == b.source &&
+						a.global == b.global &&
+						a.multiline == b.multiline &&
+						a.ignoreCase == b.ignoreCase;
+		}
+		if (typeof a != 'object' || typeof b != 'object') return false;
+		// Assume equality for cyclic structures. The algorithm for detecting cyclic
+		// structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+		var length:uint = stack.length;
+		while (length--) {
+			// Linear search. Performance is inversely proportional to the number of
+			// unique nested structures.
+			if (stack[length] == a) return true;
+		}
+		// Add the first object to the stack of traversed objects.
+		stack.push(a);
+		var size:uint = 0, result:Boolean = true;
+		// Recursively compare objects and arrays.
+		if (className == '[object Array]') {
+			// Compare array lengths to determine if a deep comparison is necessary.
+			size = a.length;
+			result = size == b.length;
+			if (result) {
+				// Deep compare the contents, ignoring non-numeric properties.
+				while (size--) {
+					// Ensure commutative equality for sparse arrays.
+					if (!(result = size in a == size in b && eq(a[size], b[size], stack))) break;
+				}
+			}
+		} else {
+			// Objects are compared via their serialized state.
+			var serializedA:ByteArray = new ByteArray();
+			serializedA.writeObject(a);
+			var serializedB:ByteArray = new ByteArray();
+			serializedB.writeObject(b);
+			return serializedA.toString() === serializedB.toString();
+		}
+		// Remove the first object from the stack of traversed objects.
+		stack.pop();
+		return result;
+	};
 
-    // Perform a deep comparison to check if two objects are equal.
-    _.isEqual = function(a:*, b:*):Boolean {
-        return eq(a, b, []);
-    };
+	// Perform a deep comparison to check if two objects are equal.
+	_.isEqual = function(a:*, b:*):Boolean {
+		return eq(a, b, []);
+	};
 
-    _.isFunction = function(a:*):Boolean {
-        return (a is Function);
-    };
+	_.isFunction = function(a:*):Boolean {
+		return (a is Function);
+	};
 
-    // Has own property?
-    _.has = function(obj:*, key:*):Boolean {
-        return obj.hasOwnProperty(key);
-    };
+	// Has own property?
+	_.has = function(obj:*, key:*):Boolean {
+		return obj.hasOwnProperty(key);
+	};
 	
 	/** A default iterator used for functions which can optionally detect truthy values. */
 	var identity:Function = function(value:*, index:* = null, list:* = null):* {
