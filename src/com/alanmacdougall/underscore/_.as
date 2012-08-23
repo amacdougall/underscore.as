@@ -274,7 +274,7 @@ public var _:* = (function():Function {
 		each (obj, function(element:*, index:*, list:*):void {
 			var value:Number = iterator != null ?
 				safeCall(iterator, context, element, index, list) :
-				element;
+				(element is Date ? element.getTime() : element);
 			if (value >= maxValue) {
 				maxValue = value;
 				maxElement = element;
@@ -296,7 +296,7 @@ public var _:* = (function():Function {
 		each (obj, function(element:*, index:*, list:*):void {
 			var value:Number = iterator != null ?
 				safeCall(iterator, context, element, index, list) :
-				element;
+				(element is Date ? element.getTime() : element);
 			if (value <= minValue) {
 				minValue = value;
 				minElement = element;
