@@ -265,7 +265,9 @@ public var _:* = (function():Function {
 	 * Returns the maximum value in the collection. If an iterator is passed,
 	 * it must return a numeric value for each element. Otherwise the element
 	 * itself will be compared using gt/lt operators, with undefined results if
-	 * the values are non-numeric.
+	 * the values cannot be compared. Special cases: Arrays will be compared by
+	 * length; Dates will be compared by their millisecond position in the Unix
+	 * epoch, i.e. Date.getTime().
 	 */
 	_.max = function(obj:*, iterator:Function = null, context:Object = null):* {
 		// unlike in underscore.js, "value" means numeric value, "element" is the real item
