@@ -1,5 +1,5 @@
 *~
-*.swp
+*.sw[a-p]
 .DS_Store
 test.swf
 test.swf.cache
