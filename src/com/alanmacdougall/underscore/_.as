@@ -441,7 +441,7 @@ public var _:* = (function():Function {
 	_.without = function(list:Array, ...targets):Array {
 		return _(list).reject(function(element:*):Boolean {
 			return _(targets).any(function(target:*):Boolean {
-				return element == target;
+				return element === target;
 			});
 		});
 	};
