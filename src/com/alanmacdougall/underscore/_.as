@@ -202,7 +202,7 @@ public var _:* = (function():Function {
 	 * iterator is omitted, tests the elements themselves for truthiness.
 	 */
 	_.all = function(obj:*, iterator:Function = null, context:Object = null):Boolean {
-		if (obj == null || _(obj).isEmpty()) return false;
+		if (obj == null) return false;
 		// TO DO: benchmark native Array.every
 		iterator = iterator || identity;
 		var result:Boolean = true;
