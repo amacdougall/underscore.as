@@ -173,8 +173,8 @@ public class CollectionsTestCase {
 			_([1, 2, 3]).all(function(n:int):Boolean {return n > 0;}));
 		Assert.assertFalse("Invalid true result from all() test.",
 			_([1, 2, 3]).all(function(n:int):Boolean {return n < 1;}));
-		Assert.assertFalse("Invalid true result from all() test on empty collection.",
-			_([]).all(function(n:int):Boolean {return true;}));
+		Assert.assertTrue("Invalid false result from all() test on empty collection.",
+			_([]).all(function(n:int):Boolean {return false;}));
 	}
 
 	[Test]
@@ -226,7 +226,7 @@ public class CollectionsTestCase {
 		var dates:Array = [
 			new Date(1776, 07, 04), // American independence
 			new Date(1949, 10, 01), // Mao declares PRC
-			new Date(1789, 07, 14)  // Bastille Day
+			new Date(1789, 07, 14)	// Bastille Day
 		];
 		
 		Assert.assertEquals("Failed to get max number.", 4, _(numbers).max());
