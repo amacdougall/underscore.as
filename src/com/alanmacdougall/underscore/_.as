@@ -715,6 +715,16 @@ public var _:* = (function():Function {
 		}
 	};
 	
+	/**
+	 * Returns a function that will only be executed after being called N times.
+	 */ 
+	_.after = function(times:int, func:Function):Function {
+		if (times <= 0) return func();
+		return function():* {
+			if (--times < 1) { return func.apply(this, arguments); }
+		};
+	};	
+	
 	/* OBJECTS */
 	/**
 	 * Returns a list of the collection's keys. Returns ints if given an array.
