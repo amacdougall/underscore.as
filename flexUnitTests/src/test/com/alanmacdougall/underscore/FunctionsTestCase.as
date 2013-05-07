@@ -296,5 +296,20 @@ public class FunctionsTestCase {
 		Assert.assertEquals("Failed to create composed function.",
 			"HELLO, ALAN!", composed("Alan"));
 	}
+	
+	[Test]
+	public function testAfter():void {
+		var count:int = 0;
+		
+		var incrementCount:Function = _.after(3, function():void {
+			count++;
+		});
+		
+		incrementCount(); // nothing
+		incrementCount(); // nothing
+		incrementCount(); // do increment
+		
+		Assert.assertEquals(1, count);
+	}
 }
 }
