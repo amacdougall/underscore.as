@@ -144,6 +144,18 @@ public class ArraysTestCase {
 	}
 
 	[Test]
+	public function testObject():void {
+		var pairs:Array = [["a", 1], ["b", 2], ["c", 3]];
+		var object:Object = _(pairs).object();
+
+		Assert.assertEquals("Failed to generate correct length object.",
+			3, _(object).size());
+		Assert.assertNotNull("Failed to create keys.", object.a);
+		Assert.assertEquals("Failed to create correct key-value pairs.",
+			1, object.a);
+	}
+
+	[Test]
 	public function testRange():void {
 		var straight:Array = _.range(10);	// 0 to 9
 		var high:Array = _.range(10, 20);	// 10 to 19

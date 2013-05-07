@@ -499,6 +499,19 @@ public var _:* = (function():Function {
 		}
 		return results;
 	}
+
+	_.object = function(list:Array, values:Array = null):Object {
+		if (list == null) return {};
+		var result:Object = {};
+		for (var i:int = 0, l:Array = list.length; i < l; i++) {
+		  if (values) {
+			result[list[i]] = values[i];
+		  } else {
+			result[list[i][0]] = list[i][1];
+		  }
+		}
+		return result;
+    },
 	
 	_.range = function(start:Number, stop:Number = NaN, step:Number = NaN):Array {
 		if (isNaN(stop)) { // _.range(10) counts 0 to 9
