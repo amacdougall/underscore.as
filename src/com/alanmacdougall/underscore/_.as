@@ -202,7 +202,7 @@ public var _:* = (function():Function {
 	 * iterator is omitted, tests the elements themselves for truthiness.
 	 */
 	_.all = function(obj:*, iterator:Function = null, context:Object = null):Boolean {
-		if (obj == null || _(obj).isEmpty()) return false;
+		if (obj == null) return false;
 		// TO DO: benchmark native Array.every
 		iterator = iterator || identity;
 		var result:Boolean = true;
@@ -265,7 +265,9 @@ public var _:* = (function():Function {
 	 * Returns the maximum value in the collection. If an iterator is passed,
 	 * it must return a numeric value for each element. Otherwise the element
 	 * itself will be compared using gt/lt operators, with undefined results if
-	 * the values are non-numeric.
+	 * the values cannot be compared. Special cases: Arrays will be compared by
+	 * length; Dates will be compared by their millisecond position in the Unix
+	 * epoch, i.e. Date.getTime().
 	 */
 	_.max = function(obj:*, iterator:Function = null, context:Object = null):* {
 		// unlike in underscore.js, "value" means numeric value, "element" is the real item
@@ -274,7 +276,7 @@ public var _:* = (function():Function {
 		each (obj, function(element:*, index:*, list:*):void {
 			var value:Number = iterator != null ?
 				safeCall(iterator, context, element, index, list) :
-				element;
+				(element is Date ? element.getTime() : element);
 			if (value >= maxValue) {
 				maxValue = value;
 				maxElement = element;
@@ -296,7 +298,7 @@ public var _:* = (function():Function {
 		each (obj, function(element:*, index:*, list:*):void {
 			var value:Number = iterator != null ?
 				safeCall(iterator, context, element, index, list) :
-				element;
+				(element is Date ? element.getTime() : element);
 			if (value <= minValue) {
 				minValue = value;
 				minElement = element;
@@ -439,7 +441,7 @@ public var _:* = (function():Function {
 	_.without = function(list:Array, ...targets):Array {
 		return _(list).reject(function(element:*):Boolean {
 			return _(targets).any(function(target:*):Boolean {
-				return element == target;
+				return element === target;
 			});
 		});
 	};

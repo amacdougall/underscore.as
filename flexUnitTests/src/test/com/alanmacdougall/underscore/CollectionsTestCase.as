@@ -173,8 +173,8 @@ public class CollectionsTestCase {
 			_([1, 2, 3]).all(function(n:int):Boolean {return n > 0;}));
 		Assert.assertFalse("Invalid true result from all() test.",
 			_([1, 2, 3]).all(function(n:int):Boolean {return n < 1;}));
-		Assert.assertFalse("Invalid true result from all() test on empty collection.",
-			_([]).all(function(n:int):Boolean {return true;}));
+		Assert.assertTrue("Invalid false result from all() test on empty collection.",
+			_([]).all(function(n:int):Boolean {return false;}));
 	}
 
 	[Test]
@@ -223,20 +223,32 @@ public class CollectionsTestCase {
 	public function testMax():void {
 		var numbers:Array = [1, 4, 3, 2];
 		var lists:Array = [[1, 2, 3], [1, 2], [3, 4, 5], [4, 5, 6, 7]];
+		var dates:Array = [
+			new Date(1776, 07, 04), // American independence
+			new Date(1949, 10, 01), // Mao declares PRC
+			new Date(1789, 07, 14)	// Bastille Day
+		];
 		
 		Assert.assertEquals("Failed to get max number.", 4, _(numbers).max());
 		Assert.assertEquals("Failed to get longest list using length test.",
 			4, _(lists).max(function(list:Array):Number {return list.length;}).length);
+		Assert.assertEquals("Failed to get most recent date.", dates[1], _(dates).max());
 	}
 
 	[Test]
 	public function testMin():void {
 		var numbers:Array = [1, 4, 3, 2];
 		var lists:Array = [[1, 2, 3], [1, 2], [3, 4, 5], [4, 5, 6, 7]];
+		var dates:Array = [
+			new Date(1776, 07, 04),
+			new Date(1949, 10, 01),
+			new Date(1789, 07, 14)
+		];
 		
 		Assert.assertEquals("Failed to get min number.", 1, _(numbers).min());
 		Assert.assertEquals("Failed to get shortest list using length test.",
 			2, _(lists).min(function(list:Array):Number {return list.length;}).length);
+		Assert.assertEquals("Failed to get least recent date.", dates[0], _(dates).min());
 	}
 
 	[Test]
