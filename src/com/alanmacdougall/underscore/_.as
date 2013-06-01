@@ -505,7 +505,7 @@ public var _:* = (function():Function {
 	_.object = function(list:Array, values:Array = null):Object {
 		if (list == null) return {};
 		var result:Object = {};
-		for (var i:int = 0, l:Array = list.length; i < l; i++) {
+		for (var i:int = 0, l:uint = list.length; i < l; i++) {
 		  if (values) {
 			result[list[i]] = values[i];
 		  } else {
