@@ -112,7 +112,7 @@ public var _:* = (function():Function {
 	 * Returns the input items, transformed by the iterator, as an associative array, 
 	 * based on the attribute index
 	 */
-	var mapAssoc:Function = _.mapAssoc = function(obj:*, iterator:Function, context:Object = null):Object {
+	var mapObject:Function = _.mapAssoc = function(obj:*, iterator:Function, context:Object = null):Object {
 		var results:Object = {};
 		if (obj == null) return results;
 		
