@@ -108,6 +108,21 @@ public var _:* = (function():Function {
 		return results;
 	};
 	
+	/** 
+	 * Returns the input items, transformed by the iterator, as an associative array, 
+	 * based on the attribute index
+	 */
+	var mapObject:Function = _.mapObject = function(obj:*, iterator:Function, context:Object = null):Object {
+		var results:Object = {};
+		if (obj == null) return results;
+		
+		// TO DO: benchmark native Array.map
+		each(obj, function(value:*, index:*, list:* = null):* {
+			results[index] = (safeCall(iterator, context, value, index, list));
+		});
+		return results;
+	};
+	
 	/**
 	 * Returns the input items, filtered by the iterator, as an Array. Aliased
 	 * as _.select.
